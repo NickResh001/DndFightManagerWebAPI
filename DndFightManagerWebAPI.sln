@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DndFightManagerWebAPI", "DndFightManagerWebAPI\DndFightManagerWebAPI.csproj", "{0BB07864-CB6D-4973-86F6-C97ABB819442}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0BB07864-CB6D-4973-86F6-C97ABB819442}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BB07864-CB6D-4973-86F6-C97ABB819442}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BB07864-CB6D-4973-86F6-C97ABB819442}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BB07864-CB6D-4973-86F6-C97ABB819442}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {392EB826-CB2D-4924-9829-E420D1ACE74F}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,6 @@
+@DndFightManagerWebAPI_HostAddress = http://localhost:5115
+
+GET {{DndFightManagerWebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
