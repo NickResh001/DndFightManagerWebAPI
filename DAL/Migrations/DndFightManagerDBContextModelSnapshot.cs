@@ -37,7 +37,61 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Abilities");
+                    b.ToTable("Ability", (string)null);
+                });
+
+            modelBuilder.Entity("DAL.Entities.ActionResource", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ActionResource", (string)null);
+                });
+
+            modelBuilder.Entity("DAL.Entities.Alignment", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("Goodness")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Law")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Alignment", (string)null);
+                });
+
+            modelBuilder.Entity("DAL.Entities.BeastNote", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(450)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BeastNote", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.BeastType", b =>
@@ -74,6 +128,24 @@ namespace DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Condition", (string)null);
+                });
+
+            modelBuilder.Entity("DAL.Entities.CooldownType", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CooldownType", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.DamageTendencyType", b =>
@@ -208,6 +280,55 @@ namespace DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Speed", (string)null);
+                });
+
+            modelBuilder.Entity("DAL.Entities.SpeedList", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("BeastNoteId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(450)");
+
+                    b.Property<int>("DistanceInFeet")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SpeedId")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BeastNoteId");
+
+                    b.HasIndex("SpeedId");
+
+                    b.ToTable("SpeedList", (string)null);
+                });
+
+            modelBuilder.Entity("DAL.Entities.TimeMeasure", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TimeMeasure", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.User", b =>
@@ -419,6 +540,25 @@ namespace DAL.Migrations
                     b.Navigation("Ability");
                 });
 
+            modelBuilder.Entity("DAL.Entities.SpeedList", b =>
+                {
+                    b.HasOne("DAL.Entities.BeastNote", "BeastNote")
+                        .WithMany("SpeedLists")
+                        .HasForeignKey("BeastNoteId")
+                        .IsRequired()
+                        .HasConstraintName("Fk_SpeedList_BeastNote");
+
+                    b.HasOne("DAL.Entities.Speed", "Speed")
+                        .WithMany("SpeedLists")
+                        .HasForeignKey("SpeedId")
+                        .IsRequired()
+                        .HasConstraintName("Fk_SpeedList_Speed");
+
+                    b.Navigation("BeastNote");
+
+                    b.Navigation("Speed");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -473,6 +613,16 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Ability", b =>
                 {
                     b.Navigation("Skills");
+                });
+
+            modelBuilder.Entity("DAL.Entities.BeastNote", b =>
+                {
+                    b.Navigation("SpeedLists");
+                });
+
+            modelBuilder.Entity("DAL.Entities.Speed", b =>
+                {
+                    b.Navigation("SpeedLists");
                 });
 #pragma warning restore 612, 618
         }

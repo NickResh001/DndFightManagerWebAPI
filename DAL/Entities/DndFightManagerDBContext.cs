@@ -31,6 +31,11 @@ namespace DAL.Entities
         public virtual EFCore.DbSet<Sense> Senses { get; set; }
         public virtual EFCore.DbSet<Condition> Conditions { get; set; }
 
+        public virtual EFCore.DbSet<SpeedList> SpeedLists { get; set; }
+
+        public virtual EFCore.DbSet<BeastNote> BeastNote { get; set; }
+
+
         #endregion
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer("Server=DESKTOP-67A5RQ1;Database=DndFightManager;Trusted_Connection=True;Encrypt=False;");
@@ -39,17 +44,7 @@ namespace DAL.Entities
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Ability>(entity =>
-            {
-                entity.Property(e => e.Id)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Title)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-            });
-
+            #region Hardcode db directories
             modelBuilder.Entity<DamageType>(entity =>
             {
                 entity.ToTable("DamageType");
@@ -62,7 +57,6 @@ namespace DAL.Entities
                     .HasMaxLength(100)
                     .IsUnicode(false);
             }); 
-            
             modelBuilder.Entity<DamageTendencyType>(entity =>
             {
                 entity.ToTable("DamageTendencyType");
@@ -75,7 +69,6 @@ namespace DAL.Entities
                     .HasMaxLength(100)
                     .IsUnicode(false);
             });
-
             modelBuilder.Entity<Skill>(entity =>
             {
                 entity.ToTable("Skill");
@@ -97,7 +90,6 @@ namespace DAL.Entities
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Fk_Skill_Ability");
             });
-
             modelBuilder.Entity<Speed>(entity =>
             {
                 entity.ToTable("Speed");
@@ -110,7 +102,6 @@ namespace DAL.Entities
                     .HasMaxLength(100)
                     .IsUnicode(false);
             });
-
             modelBuilder.Entity<Habitat>(entity =>
             {
                 entity.ToTable("Habitat");
@@ -122,8 +113,7 @@ namespace DAL.Entities
                 entity.Property(e => e.Title)
                     .HasMaxLength(100)
                     .IsUnicode(false);
-            });
-            
+            });            
             modelBuilder.Entity<Size>(entity =>
             {
                 entity.ToTable("Size");
@@ -135,8 +125,7 @@ namespace DAL.Entities
                 entity.Property(e => e.Title)
                     .HasMaxLength(100)
                     .IsUnicode(false);
-            });
-            
+            });            
             modelBuilder.Entity<BeastType>(entity =>
             {
                 entity.ToTable("BeastType");
@@ -148,8 +137,7 @@ namespace DAL.Entities
                 entity.Property(e => e.Title)
                     .HasMaxLength(100)
                     .IsUnicode(false);
-            });
-            
+            });            
             modelBuilder.Entity<Sense>(entity =>
             {
                 entity.ToTable("Sense");
@@ -162,7 +150,6 @@ namespace DAL.Entities
                     .HasMaxLength(100)
                     .IsUnicode(false);
             });
-
             modelBuilder.Entity<Condition>(entity =>
             {
                 entity.ToTable("Condition");
@@ -175,10 +162,112 @@ namespace DAL.Entities
                     .HasMaxLength(100)
                     .IsUnicode(false);
             });
+            modelBuilder.Entity<ActionResource>(entity =>
+            {
+                entity.ToTable("ActionResource");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
+            modelBuilder.Entity<CooldownType>(entity =>
+            {
+                entity.ToTable("CooldownType");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+            });            
+            modelBuilder.Entity<TimeMeasure>(entity =>
+            {
+                entity.ToTable("TimeMeasure");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
+            modelBuilder.Entity<Ability>(entity =>
+            {
+                entity.ToTable("Ability");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+            modelBuilder.Entity<Alignment>(entity =>
+            {
+                entity.ToTable("Alignment");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+            #endregion
+
+
+
+            #region Cross-reference tables
+
+            modelBuilder.Entity<SpeedList>(entity =>
+            {
+                entity.ToTable("SpeedList");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SpeedId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.BeastNoteId)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.HasOne(s => s.Speed).WithMany(a => a.SpeedLists)
+                    .HasForeignKey(s => s.SpeedId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_SpeedList_Speed");
+
+                entity.HasOne(s => s.BeastNote).WithMany(a => a.SpeedLists)
+                    .HasForeignKey(s => s.BeastNoteId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_SpeedList_BeastNote");
+            });
+
+            #endregion
 
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("User");
+            });
+            modelBuilder.Entity<BeastNote>(entity =>
+            {
+                entity.ToTable("BeastNote");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
             });
 
             OnModelCreatingPartial(modelBuilder);

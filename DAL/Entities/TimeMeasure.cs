@@ -7,13 +7,10 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public class Speed
+    public class TimeMeasure
     {
         [Key]
         public string Id { get; set; } = null!;
         public string Title { get; set; } = null!;
-
-        public virtual ICollection<SpeedList> SpeedLists { get; } = new List<SpeedList>();
-
     }
 }

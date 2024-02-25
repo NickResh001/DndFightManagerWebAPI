@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public class Speed
+    public class Alignment
     {
         [Key]
         public string Id { get; set; } = null!;
+        public int Law { get; set; }
+        public int Goodness { get; set; }
         public string Title { get; set; } = null!;
-
-        public virtual ICollection<SpeedList> SpeedLists { get; } = new List<SpeedList>();
-
     }
 }

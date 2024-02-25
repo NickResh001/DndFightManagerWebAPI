@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class Initital : Migration
+    public partial class AddedAllDbHardcodeDirectories : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Abilities",
+                name: "Ability",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
@@ -20,7 +20,33 @@ namespace DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Abilities", x => x.Id);
+                    table.PrimaryKey("PK_Ability", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ActionResource",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
+                    Title = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ActionResource", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Alignment",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
+                    Law = table.Column<int>(type: "int", nullable: false),
+                    Goodness = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Alignment", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -47,6 +73,30 @@ namespace DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BeastType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Condition",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
+                    Title = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Condition", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CooldownType",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
+                    Title = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CooldownType", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,6 +136,18 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Sense",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
+                    Title = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sense", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Size",
                 columns: table => new
                 {
@@ -107,6 +169,18 @@ namespace DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Speed", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TimeMeasure",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
+                    Title = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TimeMeasure", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -148,7 +222,7 @@ namespace DAL.Migrations
                     table.ForeignKey(
                         name: "Fk_Skill_Ability",
                         column: x => x.AbilityId,
-                        principalTable: "Abilities",
+                        principalTable: "Ability",
                         principalColumn: "Id");
                 });
 
@@ -307,6 +381,12 @@ namespace DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ActionResource");
+
+            migrationBuilder.DropTable(
+                name: "Alignment");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -325,6 +405,12 @@ namespace DAL.Migrations
                 name: "BeastType");
 
             migrationBuilder.DropTable(
+                name: "Condition");
+
+            migrationBuilder.DropTable(
+                name: "CooldownType");
+
+            migrationBuilder.DropTable(
                 name: "DamageTendencyType");
 
             migrationBuilder.DropTable(
@@ -332,6 +418,9 @@ namespace DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Habitat");
+
+            migrationBuilder.DropTable(
+                name: "Sense");
 
             migrationBuilder.DropTable(
                 name: "Size");
@@ -343,13 +432,16 @@ namespace DAL.Migrations
                 name: "Speed");
 
             migrationBuilder.DropTable(
+                name: "TimeMeasure");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "User");
 
             migrationBuilder.DropTable(
-                name: "Abilities");
+                name: "Ability");
         }
     }
 }
