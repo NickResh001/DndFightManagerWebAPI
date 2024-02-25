@@ -14,5 +14,6 @@ namespace DAL.Entities
         public int Law { get; set; }
         public int Goodness { get; set; }
         public string Title { get; set; } = null!;
+        public virtual ICollection<BeastNote> BeastNotes { get; } = new List<BeastNote>();
     }
 }

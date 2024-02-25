@@ -14,7 +14,8 @@ namespace DAL.Entities
         public string AbilityId { get; set; } = null!;
         public string Title { get; set; } = null!;
 
-
         public virtual Ability Ability { get; set; } = null!;
+        public virtual ICollection<SkillList> SkillLists { get; } = new List<SkillList>();
+
     }
 }

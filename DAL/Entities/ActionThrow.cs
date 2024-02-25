@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public class Sense
+    public class ActionThrow
     {
         [Key]
         public string Id { get; set; } = null!;
-        public string Title { get; set; } = null!;
+        public string ActionId { get; set; } = null!;
+        public string? Title { get; set; }
+        public string Throw { get; set; } = null!;
 
-        public virtual ICollection<SenseList> SenseLists { get; } = new List<SenseList>();
+        public virtual Action Action { get; set; } = null!;
+
     }
 }

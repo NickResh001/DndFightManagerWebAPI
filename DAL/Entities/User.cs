@@ -9,6 +9,7 @@ namespace DAL.Entities
 {
     public class User : IdentityUser
     {
-
+        public virtual ICollection<BeastNote> CreatedBeastNotes { get; } = new List<BeastNote>();
+        public virtual ICollection<BeastNote> ModeratedBeastNotes { get; } = new List<BeastNote>();
     }
 }

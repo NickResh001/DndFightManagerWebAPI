@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public class Sense
+    public class SpellSlot
     {
         [Key]
         public string Id { get; set; } = null!;
-        public string Title { get; set; } = null!;
+        public string BeastNoteId { get; set; } = null!;
+        public int Level { get; set; }
+        public int Count { get; set; }
 
-        public virtual ICollection<SenseList> SenseLists { get; } = new List<SenseList>();
+
+        public virtual BeastNote BeastNote { get; set; } = null!;
     }
 }
