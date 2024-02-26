@@ -14,6 +14,7 @@ namespace DAL.Entities
         public string Title { get; set; } = null!;
 
         public virtual ICollection<ConditionImmunitiesList> ConditionImmunitiesLists { get; } = new List<ConditionImmunitiesList>();
+        public virtual ICollection<ConditionList> ConditionLists { get; } = new List<ConditionList>();
 
     }
 }

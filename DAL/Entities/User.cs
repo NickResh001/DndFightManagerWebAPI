@@ -11,5 +11,6 @@ namespace DAL.Entities
     {
         public virtual ICollection<BeastNote> CreatedBeastNotes { get; } = new List<BeastNote>();
         public virtual ICollection<BeastNote> ModeratedBeastNotes { get; } = new List<BeastNote>();
+        public virtual ICollection<Campaign> Campaigns { get; } = new List<Campaign>();
     }
 }

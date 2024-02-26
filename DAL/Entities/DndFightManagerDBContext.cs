@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,10 @@ namespace DAL.Entities
 {
     public partial class DndFightManagerDBContext : IdentityDbContext<User>
     {
-        public DndFightManagerDBContext()
+        protected readonly IConfiguration _configuration;
+        public DndFightManagerDBContext(IConfiguration configuration)
         {
-        }
-        public DndFightManagerDBContext(DbContextOptions<DndFightManagerDBContext> options)
-            : base(options)
-        {
+            _configuration = configuration;
         }
 
         #region DbSets
@@ -41,16 +40,36 @@ namespace DAL.Entities
         public virtual EFCore.DbSet<SenseList> SenseLists { get; set; }
         public virtual EFCore.DbSet<ConditionImmunitiesList> ConditionImmunitiesLists { get; set; }
 
-
         public virtual EFCore.DbSet<Action> Actions { get; set; }
         public virtual EFCore.DbSet<ActionThrow> ActionThrows { get; set; }
         public virtual EFCore.DbSet<BeastNote> BeastNotes { get; set; }
 
+        public virtual EFCore.DbSet<TemporaryAbilityList> TemporaryAbilityLists { get; set; }
+        public virtual EFCore.DbSet<ConditionList> ConditionLists { get; set; }
+        public virtual EFCore.DbSet<ActionResourceList> ActionResourceLists { get; set; }
+        public virtual EFCore.DbSet<SpellSlotsList> SpellSlotsLists { get; set; }
+
+        public virtual EFCore.DbSet<Setting> Settings { get; set; }
+        public virtual EFCore.DbSet<Campaign> Campaigns { get; set; }
+        public virtual EFCore.DbSet<Scene> Scenes { get; set; }
+        public virtual EFCore.DbSet<SceneSave> SceneSaves { get; set; }
+        public virtual EFCore.DbSet<FightTeam> FightTeams { get; set; }
+        public virtual EFCore.DbSet<Beast> Beast { get; set; }
+
 
         #endregion
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer("Server=DESKTOP-67A5RQ1;Database=DndFightManager;Trusted_Connection=True;Encrypt=False;");
-
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            try
+            {
+                optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
+            }
+            catch
+            {
+                throw new Exception("Db server ins't working");
+            }
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -446,6 +465,101 @@ namespace DAL.Entities
                     .HasConstraintName("Fk_ConditionImmunitiesList_BeastNote");
             });
 
+            modelBuilder.Entity<TemporaryAbilityList>(entity =>
+            {
+                entity.ToTable("TemporaryAbilityList");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.BeastId)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.AbilityId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.HasOne(s => s.Beast).WithMany(a => a.TemporaryAbilityLists)
+                    .HasForeignKey(s => s.BeastId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_TemporaryAbilityList_Beast");
+
+                entity.HasOne(s => s.Ability).WithMany(a => a.TemporaryAbilityLists)
+                    .HasForeignKey(s => s.AbilityId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_TemporaryAbilityList_Ability");
+            });
+            modelBuilder.Entity<ConditionList>(entity =>
+            {
+                entity.ToTable("ConditionList");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.BeastId)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ConditionId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.HasOne(s => s.Beast).WithMany(a => a.ConditionLists)
+                    .HasForeignKey(s => s.BeastId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_ConditionLists_Beast");
+
+                entity.HasOne(s => s.Condition).WithMany(a => a.ConditionLists)
+                    .HasForeignKey(s => s.ConditionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_ConditionLists_Condition");
+            });
+            modelBuilder.Entity<ActionResourceList>(entity =>
+            {
+                entity.ToTable("ActionResourceList");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.BeastId)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ActionResourceId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.HasOne(s => s.Beast).WithMany(a => a.ActionResourceLists)
+                    .HasForeignKey(s => s.BeastId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_ActionResourceList_Beast");
+
+                entity.HasOne(s => s.ActionResource).WithMany(a => a.ActionResourceLists)
+                    .HasForeignKey(s => s.ActionResourceId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_ActionResourceList_ActionResource");
+            });
+            modelBuilder.Entity<SpellSlotsList>(entity =>
+            {
+                entity.ToTable("SpellSlotsList");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.BeastId)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.HasOne(s => s.Beast).WithMany(a => a.SpellSlotsLists)
+                    .HasForeignKey(s => s.BeastId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_SpellSlotsList_Beast");
+            });
             #endregion
 
             modelBuilder.Entity<Action>(entity =>
@@ -620,6 +734,153 @@ namespace DAL.Entities
                     .HasForeignKey(s => s.SpellAbilityId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Fk_BeastNote_SpellAbility");
+            });
+
+            modelBuilder.Entity<Setting>(entity =>
+            {
+                entity.ToTable("Setting");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+            });
+            modelBuilder.Entity<Campaign>(entity =>
+            {
+                entity.ToTable("Campaign");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.AuthorId)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.HasOne(s => s.Author).WithMany(a => a.Campaigns)
+                    .HasForeignKey(s => s.AuthorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_Campaign_Author");
+
+            });
+            modelBuilder.Entity<Scene>(entity =>
+            {
+                entity.ToTable("Scene");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CampaignId)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SettingId)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.HasOne(s => s.Campaign).WithMany(a => a.Scenes)
+                    .HasForeignKey(s => s.CampaignId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_Scene_Campaign");
+
+                entity.HasOne(s => s.Setting).WithMany(a => a.Scenes)
+                    .HasForeignKey(s => s.SettingId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_Scene_Setting");
+
+            });
+            modelBuilder.Entity<SceneSave>(entity =>
+            {
+                entity.ToTable("SceneSave");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SceneId)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CurrentBeastInitiative)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.HasOne(s => s.Scene).WithMany(a => a.SceneSaves)
+                    .HasForeignKey(s => s.SceneId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_SceneSave_Scene");
+
+            });
+            modelBuilder.Entity<FightTeam>(entity =>
+            {
+                entity.ToTable("FightTeam");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SceneSaveId)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.HasOne(s => s.SceneSave).WithMany(a => a.FightTeams)
+                    .HasForeignKey(s => s.SceneSaveId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_FightTeam_SceneSave");
+            });
+            modelBuilder.Entity<Beast>(entity =>
+            {
+                entity.ToTable("Beast");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SceneSaveId)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FightTeamId)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CurrentInitiative)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.HasOne(s => s.SceneSave).WithMany(a => a.Beasts)
+                    .HasForeignKey(s => s.SceneSaveId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_Beast_SceneSave");
+
+                entity.HasOne(s => s.FightTeam).WithMany(a => a.Beasts)
+                    .HasForeignKey(s => s.FightTeamId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_Beast_FightTeam");
             });
 
             OnModelCreatingPartial(modelBuilder);

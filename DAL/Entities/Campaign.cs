@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public class ActionResource
+    public class Campaign
     {
         [Key]
         public string Id { get; set; } = null!;
         public string Title { get; set; } = null!;
-        public virtual ICollection<Action> Actions { get; } = new List<Action>();
-        public virtual ICollection<ActionResourceList> ActionResourceLists { get; } = new List<ActionResourceList>();
+        public string AuthorId { get; set; } = null!;
+        public User Author { get; set; } = null!;
+
+        public virtual ICollection<Scene> Scenes { get; } = new List<Scene>();
 
     }
 }

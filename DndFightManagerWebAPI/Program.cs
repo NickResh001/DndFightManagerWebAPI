@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using System.Text.Json.Serialization;
 using DAL.Entities;
 using DAL.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
@@ -55,7 +56,10 @@ builder.Services.ConfigureApplicationCookie(options =>
     };
 });
 
-builder.Services.AddDbContext<DndFightManagerDBContext>();
+builder.Services.AddDbContext<DndFightManagerDBContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaulConnection"));
+});
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
