@@ -13,7 +13,7 @@ namespace DAL.Entities
         public string Id { get; set; } = null!;
         public string BeastId { get; set; } = null!;
         public string ActionResourceId { get; set; } = null!;
-        public bool Availeable { get; set; }
+        public bool Available { get; set; }
 
         public Beast Beast { get; set; } = null!;
         public ActionResource ActionResource { get; set; } = null!;
