@@ -4,6 +4,7 @@ using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(DndFightManagerDBContext))]
-    partial class DndFightManagerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240403153649_SomeThings")]
+    partial class SomeThings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1128,7 +1131,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("BeastNoteId");
 
-                    b.ToTable("Thing", (string)null);
+                    b.ToTable("StartThing", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.TimeMeasure", b =>

@@ -30,6 +30,7 @@ namespace DAL.Entities
         public virtual EFCore.DbSet<Sense> Senses { get; set; }
         public virtual EFCore.DbSet<Condition> Conditions { get; set; }
         public virtual EFCore.DbSet<ActionResource> ActionResources { get; set; }
+        public virtual EFCore.DbSet<Thing> Thing { get; set; }
 
         public virtual EFCore.DbSet<SpeedList> SpeedLists { get; set; }
         public virtual EFCore.DbSet<DamageTendency> DamageTendencies { get; set; }
@@ -735,6 +736,40 @@ namespace DAL.Entities
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Fk_BeastNote_SpellAbility");
             });
+            modelBuilder.Entity<Thing>(entity =>
+            {
+                entity.ToTable("Thing");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.BeastNoteId)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.BeastId)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.HasOne(s => s.BeastNote).WithMany(a => a.Things)
+                    .HasForeignKey(s => s.BeastNoteId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_Thing_BeastNote");
+
+                entity.HasOne(s => s.Beast).WithMany(a => a.Things)
+                    .HasForeignKey(s => s.BeastId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_Thing_Beast");
+            });
 
             modelBuilder.Entity<Setting>(entity =>
             {
@@ -868,6 +903,10 @@ namespace DAL.Entities
                     .HasMaxLength(450)
                     .IsUnicode(false);
 
+                entity.Property(e => e.BeastNoteId)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.CurrentInitiative)
                     .HasMaxLength(20)
                     .IsUnicode(false);
@@ -881,6 +920,11 @@ namespace DAL.Entities
                     .HasForeignKey(s => s.FightTeamId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Fk_Beast_FightTeam");
+
+                entity.HasOne(s => s.BeastNote).WithMany(a => a.Beasts)
+                    .HasForeignKey(s => s.BeastNoteId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_Beast_BeastNote");
             });
 
             OnModelCreatingPartial(modelBuilder);

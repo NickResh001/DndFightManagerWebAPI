@@ -53,6 +53,8 @@ namespace DAL.Entities
         public virtual ICollection<SenseList> SenseLists { get; } = new List<SenseList>();
         public virtual ICollection<ConditionImmunitiesList> ConditionImmunitiesLists { get; } = new List<ConditionImmunitiesList>();
         public virtual ICollection<Action> Actions { get; } = new List<Action>();
+        public virtual ICollection<Thing> Things { get; } = new List<Thing>();
+        public virtual ICollection<Beast> Beasts { get; } = new List<Beast>();
 
     }
 }

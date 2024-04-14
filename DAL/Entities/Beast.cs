@@ -13,6 +13,7 @@ namespace DAL.Entities
         public string Id { get; set; } = null!;
         public string SceneSaveId { get; set; } = null!;
         public string FightTeamId { get; set; } = null!;
+        public string BeastNoteId { get; set; } = null!;
         public string Title { get; set; } = null!;
         public string CurrentInitiative { get; set; } = null!;
         public int CurrentArmorClass { get; set; }
@@ -23,11 +24,13 @@ namespace DAL.Entities
 
         public SceneSave SceneSave { get; set; } = null!;
         public FightTeam FightTeam { get; set; } = null!;
+        public BeastNote BeastNote { get; set; } = null!;
 
         public virtual ICollection<TemporaryAbilityList> TemporaryAbilityLists { get; } = new List<TemporaryAbilityList>();
         public virtual ICollection<ConditionList> ConditionLists { get; } = new List<ConditionList>();
         public virtual ICollection<ActionResourceList> ActionResourceLists { get; } = new List<ActionResourceList>();
         public virtual ICollection<SpellSlotsList> SpellSlotsLists { get; } = new List<SpellSlotsList>();
+        public virtual ICollection<Thing> Things { get; } = new List<Thing>();
 
     }
 }
