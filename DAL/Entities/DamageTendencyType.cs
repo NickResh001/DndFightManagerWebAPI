@@ -7,13 +7,8 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public class DamageTendencyType
+    public class DamageTendencyType : HardcodeDirectory
     {
-        [Key]
-        public string Id { get; set; } = null!;
-        public string Title { get; set; } = null!;
-
         public virtual ICollection<DamageTendency> DamageTendencies { get; } = new List<DamageTendency>();
-
     }
 }

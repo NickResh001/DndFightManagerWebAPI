@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public class Speed : HardcodeDirectory
+    public class HardcodeDirectory
     {
-        public virtual ICollection<SpeedList> SpeedLists { get; } = new List<SpeedList>();
+        [Key]
+        public string Id { get; set; } = null!;
+        public string Title { get; set; } = null!;
     }
 }

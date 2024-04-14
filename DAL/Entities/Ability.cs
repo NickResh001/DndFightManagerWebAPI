@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public class Ability
+    public class Ability : HardcodeDirectory
     {
-        [Key]
-        public string Id { get; set; } = null!;
-        public string Title { get; set; } = null!;
-
         public virtual ICollection<Skill> Skills { get; } = new List<Skill>();
         public virtual ICollection<AbilityList> AbilityLists { get; } = new List<AbilityList>();
         public virtual ICollection<BeastNote> BeastNotes { get; } = new List<BeastNote>();

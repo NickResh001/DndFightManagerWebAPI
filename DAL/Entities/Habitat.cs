@@ -7,13 +7,8 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public class Habitat
+    public class Habitat : HardcodeDirectory
     {
-        [Key]
-        public string Id { get; set; } = null!;
-        public string Title { get; set; } = null!;
-
         public virtual ICollection<HabitatList> HabitatLists { get; } = new List<HabitatList>();
-
     }
 }

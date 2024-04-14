@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public class Condition
+    public class Condition : HardcodeDirectory
     {
-        [Key]
-        public string Id { get; set; } = null!;
-        public string Title { get; set; } = null!;
-
         public virtual ICollection<ConditionImmunitiesList> ConditionImmunitiesLists { get; } = new List<ConditionImmunitiesList>();
         public virtual ICollection<ConditionList> ConditionLists { get; } = new List<ConditionList>();
 

@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public class BeastType
+    public class BeastType : HardcodeDirectory
     {
-        [Key]
-        public string Id { get; set; } = null!;
-        public string Title { get; set; } = null!;
         public virtual ICollection<BeastNote> BeastNotes { get; } = new List<BeastNote>();
     }
 }

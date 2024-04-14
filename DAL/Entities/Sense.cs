@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public class Sense
+    public class Sense : HardcodeDirectory
     {
-        [Key]
-        public string Id { get; set; } = null!;
-        public string Title { get; set; } = null!;
-
         public virtual ICollection<SenseList> SenseLists { get; } = new List<SenseList>();
     }
 }
