@@ -16,6 +16,7 @@ namespace DAL.Entities
         public string BeastTypeId { get; set; } = null!;
         public string AuthorId { get; set; } = null!;
         public string? ModeratorId { get; set; }
+        public string? ModeratorComment {  get; set; }
         public string? SpellAbilityId { get; set; }
 
         public string HitPointsDice { get; set; } = null!;
@@ -50,6 +51,7 @@ namespace DAL.Entities
         public virtual ICollection<AbilityList> AbilityLists { get; } = new List<AbilityList>();
         public virtual ICollection<SpellSlot> SpellSlots { get; } = new List<SpellSlot>();
         public virtual ICollection<HabitatList> HabitatLists { get; } = new List<HabitatList>();
+        public virtual ICollection<LanguageList> LanguageLists { get; } = new List<LanguageList>();
         public virtual ICollection<SenseList> SenseLists { get; } = new List<SenseList>();
         public virtual ICollection<ConditionImmunitiesList> ConditionImmunitiesLists { get; } = new List<ConditionImmunitiesList>();
         public virtual ICollection<Action> Actions { get; } = new List<Action>();

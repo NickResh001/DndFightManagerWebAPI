@@ -25,6 +25,7 @@ namespace DAL.Entities
         public virtual EFCore.DbSet<Skill> Skills { get; set; }
         public virtual EFCore.DbSet<Speed> Speeds { get; set; }
         public virtual EFCore.DbSet<Habitat> Habitats { get; set; }
+        public virtual EFCore.DbSet<Language> Languages { get; set; }
         public virtual EFCore.DbSet<Size> Sizes { get; set; }
         public virtual EFCore.DbSet<BeastType> BeastTypes { get; set; }
         public virtual EFCore.DbSet<Sense> Senses { get; set; }
@@ -38,6 +39,7 @@ namespace DAL.Entities
         public virtual EFCore.DbSet<AbilityList> AbilityLists { get; set; }
         public virtual EFCore.DbSet<SpellSlot> SpellSlots { get; set; }
         public virtual EFCore.DbSet<HabitatList> HabitatLists { get; set; }
+        public virtual EFCore.DbSet<LanguageList> LanguageLists { get; set; }
         public virtual EFCore.DbSet<SenseList> SenseLists { get; set; }
         public virtual EFCore.DbSet<ConditionImmunitiesList> ConditionImmunitiesLists { get; set; }
 
@@ -144,7 +146,19 @@ namespace DAL.Entities
                 entity.Property(e => e.Title)
                     .HasMaxLength(100)
                     .IsUnicode(false);
-            });            
+            });
+            modelBuilder.Entity<Language>(entity =>
+            {
+                entity.ToTable("Language");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
             modelBuilder.Entity<Size>(entity =>
             {
                 entity.ToTable("Size");
@@ -412,6 +426,32 @@ namespace DAL.Entities
                     .HasForeignKey(s => s.BeastNoteId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Fk_HabitatList_BeastNote");
+            });
+            modelBuilder.Entity<LanguageList>(entity =>
+            {
+                entity.ToTable("LanguageList");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LanguageId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.BeastNoteId)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.HasOne(s => s.Language).WithMany(a => a.LanguageLists)
+                    .HasForeignKey(s => s.LanguageId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_LanguageList_Language");
+
+                entity.HasOne(s => s.BeastNote).WithMany(a => a.LanguageLists)
+                    .HasForeignKey(s => s.BeastNoteId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Fk_LanguageList_BeastNote");
             });
             modelBuilder.Entity<SenseList>(entity =>
             {
@@ -700,6 +740,10 @@ namespace DAL.Entities
 
                 entity.Property(e => e.ModeratorId)
                     .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ModeratorComment)
+                    .HasMaxLength(1000)
                     .IsUnicode(false);
 
                 entity.Property(e => e.SpellAbilityId)
